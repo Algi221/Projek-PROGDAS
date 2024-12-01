@@ -1,128 +1,208 @@
 body {
-    background: linear-gradient(135deg, #0088ff, #cfd145, #110eb3, #d1e949);
     font-family: Arial, sans-serif;
-    color: #333;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: #3e3d3d;
+    display: grid;
+    place-items: center;
 }
 
-h1, h2 {
-    color: #ffe30b;
-    text-align: center;
-    animation: fadeIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
+/* CSS untuk efek pinggir container */
 .container {
+    position: relative;
     max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.8s ease-in-out;
+    padding: 20px; /* Padding di dalam container */
+    border-radius: 10px; /* Membuat sudut container melengkung */
+    background-color: white; /* Warna latar belakang container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    box-sizing: border-box; /* Memastikan padding dan border tidak mempengaruhi ukuran */
+    align-items: center;
+    justify-content: center;
 }
 
-@keyframes slideIn {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+.container::before {
+    content: '';
+    position: absolute;
+    top: -10px; /* Atur posisi atas */
+    left: -10px; /* Atur posisi kiri */
+    right: -10px; /* Atur posisi kanan */
+    bottom: -10px; /* Atur posisi bawah */
+    border-radius: 15px; /* Membuat sudut melengkung */
+    background: linear-gradient(45deg, #ff0000, #ff7300, #838383, #01ffb7, #00bfff, #0000ff, #a000ff, #ff00ff);
+    background-size: 400% 400%; /* Ukuran latar belakang */
+    animation: gradient 10s ease infinite; /* Animasi perubahan warna */
+    z-index: -1; /* Mengatur z-index agar berada di belakang container */
 }
 
-.crudForm{
+/* Animasi untuk efek lampu disco */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+h1 {
+    text-align: center;
+    font-family: 'Righteous', cursive;
+    color: #d30000;
+}
+
+h2 {
+    color: #333;
+    margin-top: 20px;
+}
+
+.form {
     margin-bottom: 20px;
-    animation: fadeInForm 0.5s ease-in;
-}
-
-@keyframes fadeInForm {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
 }
 
 label {
+    display: block;
+    margin: 5px 0;
     font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+button,select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.input-group {
+    display: flex;
+    align-items: center; /* Vertically center the items */
+}
+
+.input-group input {
+    flex: 1; /* Make the input take the remaining space */
+    margin-right: 10px; /* Space between input and currency label */
+}
+
+.input-group .currency {
+    font-weight: bold; /* Make the currency label bold */
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f8f9fa;
     color: #333;
 }
 
-input, select {
-    width: 100%;
-    padding: 10px;
+.dialog {
+    display: none;
+    position: fixed;
+    background-color: white;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    background-color: #f8f9fa;
-    transition: border-color 0.3s ease;
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
-input:focus, select:focus {
-    border-color: #1890c4;
-    outline: none;
+.dialog button {
+    margin-top: 10px;
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #39d3d9;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-    background-color: #3cc20b;
-}
-
-.btn:focus {
-    outline: none;
-}
-
-.table {
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    margin-top: 30px;
-    border-collapse: collapse;
-    animation: fadeInRow 0.5s ease-in-out;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 500;
+}
+.edit-dialog {
+    display: none; /* Tersembunyi secara default */
+    position: fixed;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    border-radius: 8px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 50%; /* Mengubah lebar dialog menjadi 90% dari lebar viewport */
+    max-width: 500px; /* Menambahkan batas maksimum lebar untuk menjaga agar dialog tidak terlalu besar */
 }
 
-@keyframes fadeInRow {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-}
-
-.table th, .table td {
-    padding: 12px;
-    border: 1px solid #ddd;
+.edit-dialog h2 {
+    color: #333;
+    margin-bottom: 15px;
     text-align: center;
 }
 
-.table th {
-    background-color: #0cf6fe;
+.edit-dialog label {
+    display: block;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.edit-dialog input[type="text"],
+.edit-dialog input[type="number"],
+.edit-dialog input[type="url"],
+.edit-dialog select {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.edit-dialog button {
+    background-color: #016a39; /* Warna biru untuk tombol edit */
     color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 4px;
+    display: block;
+    margin: 10px auto;
 }
 
-.table tr:nth-child(even) {
-    background-color: #f2f2f2;
+.edit-dialog button:hover {
+    background-color: #19f66e; /* Warna biru lebih gelap saat hover */
 }
 
-.table tr:hover {
-    background-color: #f1f1f1;
+.edit-dialog .close {
+    background-color: #dc3545; /* Warna merah untuk tombol tutup */
 }
 
-.table .btn {
-    font-size: 12px;
-    padding: 5px 10px;
-}
-
-.image-preview {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: none;
+.edit-dialog .close:hover {
+    background-color: #c82333; /* Warna merah lebih gelap saat hover */
 }
